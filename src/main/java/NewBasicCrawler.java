@@ -13,11 +13,11 @@ import java.util.regex.Pattern;
 
 public class NewBasicCrawler {
     private static final int MAX_DEPTH = 2;
-    private static final Pattern ANY_HOST_FILTER = Pattern.compile("(https?://)(www\\.)?[^#\n]+");
+    private static final Pattern ANY_HOST_FILTER = Pattern.compile("^https?://(www\\.)?[\\w\\d\\W&&[^#]]+$");
     private static final Pattern BINARY_TYPES = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g"
                                                         + "|png|tiff?|mid|mp2|mp3|mp4"
                                                         + "|wav|avi|mov|mpeg|ram|m4v|pdf"
-                                                        + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
+                                                        + "|rm|svg|wmv|swf|wma|zip|rar|gz))$");
     private final int depth = 1;
     private boolean internalOnly = true;
 
