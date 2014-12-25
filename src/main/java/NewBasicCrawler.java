@@ -35,7 +35,7 @@ public class NewBasicCrawler {
         System.out.println(retrievedLinks.size());
     }
 
-    private Set<String> retrieveLinksFromSite(int currentDepth, Set<String> initialLinks) throws InterruptedException {
+    private Set<String> retrieveLinksFromSite(int currentDepth, Set<String> initialLinks) {
         if (currentDepth < depth) {
             Set<String> localLinks = new HashSet<String>();
             for (String link : initialLinks) {
@@ -48,9 +48,8 @@ public class NewBasicCrawler {
         }
     }
 
-    public Set<String> parseURL(String url) throws InterruptedException {
+    public Set<String> parseURL(String url) {
         Set<String> result = new HashSet<String>();
-        Thread.sleep(500); // timeout or ban
         Connection connection = Jsoup.connect(url);
         String host;
         Document document;
