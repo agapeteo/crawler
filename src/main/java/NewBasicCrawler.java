@@ -5,7 +5,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.HashSet;
@@ -25,10 +24,10 @@ public class NewBasicCrawler {
     public static void main(String[] args) throws InterruptedException {
         NewBasicCrawler c = new NewBasicCrawler();
         Set<String> initial = new HashSet();
-//        initial.add("https://code.google.com/p/lightcrawler/");
-//        initial.add("http://ukr.net");
+        initial.add("https://code.google.com/p/lightcrawler/");
+//        initial.add("http://bbc.com");
 //        initial.add("http://habrahabr.ru");
-        initial.add("http://en.wikipedia.org/wiki/Main_Page");
+//        initial.add("http://en.wikipedia.org/wiki/Main_Page");
         Set<String> retrievedLinks = c.retrieveLinksFromSite(0, initial);
         for (String each : retrievedLinks) {
             System.out.println(each);
@@ -37,9 +36,6 @@ public class NewBasicCrawler {
     }
 
     private Set<String> retrieveLinksFromSite(int currentDepth, Set<String> initialLinks) throws InterruptedException {
-        if (depth > MAX_DEPTH) {
-            // (depth should be <= MAX_DEPTH)
-        }
         if (currentDepth < depth) {
             Set<String> localLinks = new HashSet<String>();
             for (String link : initialLinks) {
@@ -63,11 +59,9 @@ public class NewBasicCrawler {
             document = connection.timeout(3000).get();
         } catch (IOException e) {
 //            LOG.error("Can't connect to " + url, e); //todo: logging
-            System.out.println(e.getMessage() + " Cant connect to " + url);
             return Collections.emptySet();
         }
         Elements links = document.select("a[href]");
-//        Elements links = document.select("a[href*=" + host +"]");
             for (Element link : links) {
                 String extractedLink = link.attr("abs:href");
                 if (internalOnly) {
@@ -80,7 +74,7 @@ public class NewBasicCrawler {
     }
 
     private void addInternalLink(String extractedLink, String host, Set<String> result) {
-        String pattern = "(https?://)(www\\.)?" + host + "[^#\n]+";
+        String pattern = "^https?://(www\\.)?" + host + "[\\w\\d\\W&&[^#]]+$";
         if (Pattern.matches(pattern, extractedLink)
                 && !BINARY_TYPES.matcher(extractedLink.toLowerCase()).matches()) {
             result.add(extractedLink);
