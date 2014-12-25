@@ -21,7 +21,7 @@ public class NewBasicCrawler {
     private final int depth = 1;
     private boolean internalOnly = true;
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         NewBasicCrawler c = new NewBasicCrawler();
         Set<String> initial = new HashSet();
         initial.add("https://code.google.com/p/lightcrawler/");
