@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 public class NewBasicCrawler {
     private static final int MAX_DEPTH = 2;
-    private static final Pattern ANY_HOST_FILTER = Pattern.compile("^https?://(www\\.)?[\\w\\d\\W&&[^#]]+$");
+    private static final Pattern ANY_HOST_FILTER = Pattern.compile("^http(s)?://(www\\.)?[\\w\\d\\W&&[^#]]+$");
     private static final Pattern BINARY_TYPES = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g"
                                                         + "|png|tiff?|mid|mp2|mp3|mp4"
                                                         + "|wav|avi|mov|mpeg|ram|m4v|pdf"
@@ -73,7 +73,7 @@ public class NewBasicCrawler {
     }
 
     private void addInternalLink(String extractedLink, String host, Set<String> result) {
-        String pattern = "^https?://(www\\.)?" + host + "[\\w\\d\\W&&[^#]]+$";
+        String pattern = "^http(s)?://(www\\.)?" + host + "[\\w\\d\\W&&[^#]]+$";
         if (Pattern.matches(pattern, extractedLink)
                 && !BINARY_TYPES.matcher(extractedLink.toLowerCase()).matches()) {
             result.add(extractedLink);
