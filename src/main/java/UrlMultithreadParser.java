@@ -36,9 +36,6 @@ public class UrlMultithreadParser extends RecursiveTask<List<String>> {
     @Override
     protected List<String> compute() {
         int length = end - start;
-//        Set<String> retrievedLinks = new HashSet<String>();
-//        List<UrlMultithreadParser> tasks = new ArrayList<UrlMultithreadParser>();
-//        List<String> newLinks = Collections.EMPTY_LIST;
         if (length == SEQUENTIAL_THRESHOLD){
             return parseURL(links.get(start));
         }
