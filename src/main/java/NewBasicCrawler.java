@@ -1,33 +1,19 @@
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
-import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ForkJoinPool;
-import java.util.regex.Pattern;
 
 public class NewBasicCrawler {
     private static final int MAX_DEPTH = 2;
-    private static final Pattern ANY_HOST_FILTER = Pattern.compile("^http(s)?://(www\\.)?[\\w\\d\\W&&[^#]]+$");
-    private static final Pattern BINARY_TYPES = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g"
-                                                        + "|png|tiff?|mid|mp2|mp3|mp4"
-                                                        + "|wav|avi|mov|mpeg|ram|m4v|pdf"
-                                                        + "|rm|svg|wmv|swf|wma|zip|rar|gz))$");
     private final int depth = 1;
-    private boolean internalOnly = true;
 
     public static void main(String[] args) {
+        boolean internalOnly = true;
         ForkJoinPool pool = new ForkJoinPool();
         List<String> initial = new ArrayList<String>();
         initial.add("https://code.google.com/p/lightcrawler/");
         initial.add("http://bbc.com");
         initial.add("http://habrahabr.ru");
         initial.add("http://en.wikipedia.org/wiki/Main_Page");
-        UrlMultithreadParser parser = new UrlMultithreadParser(initial, true);
+        UrlMultithreadParser parser = new UrlMultithreadParser(initial, new UrlParserImpl(internalOnly));
 //        do {
 //            System.out.printf("******************************************\n");
 //            System.out.printf("Main: Parallelism: %d\n", pool.getParallelism());
