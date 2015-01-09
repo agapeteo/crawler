@@ -26,14 +26,14 @@ public class UrlParserImpl implements UrlParser {
 
     @Override
     public List<String> parseURL(String url) {
-        System.out.println("------->"+url);
+        final int timeout = 3000;
         List<String> result = new ArrayList<String>();
         Connection connection = Jsoup.connect(url);
         String host;
         Document document;
         try {
             host = new URL(url).getHost();
-            document = connection.timeout(3000).get();
+            document = connection.timeout(timeout).get();
         } catch (IOException e) {
 //            LOG.error("Can't connect to " + url, e); //todo: logging
             return Collections.emptyList();
