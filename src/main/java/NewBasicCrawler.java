@@ -3,32 +3,40 @@ import java.util.concurrent.ForkJoinPool;
 
 public class NewBasicCrawler {
     private static final int MAX_DEPTH = 2;
-    private final int depth = 1;
+    private static final int depth = 1;
 
     public static void main(String[] args) {
         boolean internalOnly = true;
+        Set<String> finalSet = new HashSet<String>();
         ForkJoinPool pool = new ForkJoinPool();
-        List<String> initial = new ArrayList<String>();
-        initial.add("https://code.google.com/p/lightcrawler/");
-        initial.add("http://bbc.com");
-        initial.add("http://habrahabr.ru");
-        initial.add("http://en.wikipedia.org/wiki/Main_Page");
-        UrlMultithreadParser parser = new UrlMultithreadParser(initial, new UrlParserImpl(internalOnly));
-//        do {
-//            System.out.printf("******************************************\n");
-//            System.out.printf("Main: Parallelism: %d\n", pool.getParallelism());
-//            System.out.printf("Main: Active Threads: %d\n", pool.getActiveThreadCount());
-//            System.out.printf("Main: Task Count: %d\n", pool.getQueuedTaskCount());
-//            System.out.printf("Main: Steal Count: %d\n", pool.getStealCount());
-//            System.out.printf("******************************************\n");
-//        } while ((!parser.isDone()));
-        Set<String> finalSet = new HashSet<String>(pool.invoke(parser));
-//
+
+        Set<String> first = new HashSet<String>();
+//        first.add("https://code.google.com/p/lightcrawler/");
+        first.add("http://bbc.com");
+        first.add("http://habrahabr.ru");
+        first.add("http://en.wikipedia.org/wiki/Main_Page");
+
+        List<Set<String>> initial = new ArrayList<Set<String>>();
+        initial.add(first);
+
+        for (int x = 0; x <= depth; x++) {
+            Forker parser = new Forker(new ArrayList<String>(initial.get(x)), new UrlParserImpl(internalOnly));
+            Set<String> newSet = new HashSet<String>(pool.invoke(parser));
+            initial.add(newSet);
+        }
+
         pool.shutdown();
-        for (String each : finalSet){
+
+        for (Set<String> each : initial){
+            finalSet.addAll(each);
+        }
+
+        for (String each : finalSet) {
             System.out.println(each);
         }
     }
+
+//    private startParsing() {}
 
 //    private Set<String> retrieveLinksFromSite(int currentDepth, Set<String> initialLinks) {
 //        if (currentDepth < depth) {

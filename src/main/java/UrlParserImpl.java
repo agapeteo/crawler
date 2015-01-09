@@ -14,9 +14,9 @@ import java.util.regex.Pattern;
 public class UrlParserImpl implements UrlParser {
     private static final Pattern ANY_HOST_FILTER = Pattern.compile("^http(s)?://(www\\.)?[\\w\\d\\W&&[^#]]+$");
     private static final Pattern BINARY_TYPES = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g"
-            + "|png|tiff?|mid|mp2|mp3|mp4"
-            + "|wav|avi|mov|mpeg|ram|m4v|pdf"
-            + "|rm|svg|wmv|swf|wma|zip|rar|gz))$");
+                                                + "|png|tiff?|mid|mp2|mp3|mp4"
+                                                + "|wav|avi|mov|mpeg|ram|m4v|pdf"
+                                                + "|rm|svg|wmv|swf|wma|zip|rar|gz))$");
 
     private final boolean internalOnly;
 
