@@ -4,16 +4,18 @@ public class NewBasicCrawler {
 
     public static void main(String[] args) {
         Set<String> first = new HashSet<String>();
+        int i = 0;
         first.add("https://code.google.com/p/lightcrawler/");
+//        first.add("https://i.u_a");
 //        first.add("http://bbc.com");
 //        first.add("http://h.wikipedia.org/wiki/Main_Page");
 
-        Crawler crawler = new CrawlerImpl(1, true, first);
+        Crawler crawler = new CrawlerImpl(3, true, first);
 
         Set<String> finalSet = crawler.crawl();
 
         for (String each : finalSet) {
-            System.out.println(each);
+            System.out.println(++i + " " + each);
         }
     }
 }
