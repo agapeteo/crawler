@@ -27,6 +27,9 @@ public class CrawlerImpl implements Crawler {
         for (int x = 0; x < depth; x++) {
             Forker parser = new Forker(new ArrayList<String>(depthsOfUrls.get(x)), new UrlParserImpl(internalOnly));
             Set<String> newUrls = new HashSet<String>(pool.invoke(parser));
+            if (newUrls.isEmpty()) {
+                throw new IllegalArgumentException("Initial links are invalid");
+            }
             depthsOfUrls.add(newUrls);
         }
 
